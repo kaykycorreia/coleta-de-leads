@@ -23,8 +23,8 @@ margin:0;
 .container{
 background:white;
 padding:40px;
-border-radius:10px;
-width:350px;
+border-radius:12px;
+width:360px;
 box-shadow:0 10px 30px rgba(0,0,0,0.3);
 }
 
@@ -33,9 +33,15 @@ text-align:center;
 margin-bottom:25px;
 }
 
+label{
+font-size:14px;
+font-weight:bold;
+}
+
 input{
 width:100%;
 padding:12px;
+margin-top:5px;
 margin-bottom:15px;
 border:1px solid #ccc;
 border-radius:6px;
@@ -72,15 +78,19 @@ color:green;
 
 <div class="container">
 
-<h2>Preencha as informações para entrarmos em contato:</h2>
+<h2>Preencha as informações para entrarmos em contato</h2>
 
-<input id="nome" placeholder="Nome completo">
+<label>Nome completo</label>
+<input id="nome" placeholder="Digite seu nome">
 
-<input id="cpf" placeholder="CPF">
+<label>CPF</label>
+<input id="cpf" placeholder="000.000.000-00" maxlength="14">
 
-<input id="email" placeholder="Email">
+<label>Email</label>
+<input id="email" placeholder="seuemail@email.com">
 
-<input id="whatsapp" placeholder="WhatsApp">
+<label>WhatsApp</label>
+<input id="whatsapp" placeholder="(11) 99999-9999" maxlength="15">
 
 <label>Data de nascimento</label>
 <input id="nascimento" type="date">
@@ -95,12 +105,23 @@ color:green;
 
 function enviar(){
 
+var nome = document.getElementById("nome").value
+var cpf = document.getElementById("cpf").value
+var email = document.getElementById("email").value
+var whatsapp = document.getElementById("whatsapp").value
+var nascimento = document.getElementById("nascimento").value
+
+if(nome=="" || cpf=="" || email=="" || whatsapp=="" || nascimento==""){
+document.getElementById("msg").innerHTML="Preencha todos os campos"
+return
+}
+
 const dados = {
-nome: document.getElementById("nome").value,
-cpf: document.getElementById("cpf").value,
-email: document.getElementById("email").value,
-whatsapp: document.getElementById("whatsapp").value,
-nascimento: document.getElementById("nascimento").value
+nome:nome,
+cpf:cpf,
+email:email,
+whatsapp:whatsapp,
+nascimento:nascimento
 }
 
 fetch("https://script.google.com/macros/s/AKfycbzvCKqUl6tN5RsCJ_G4EvjVfrlpJSwBw0K0a0IZPPQbHWCtPcTf3w0YDRss7NpSZb8H/exec",{
@@ -113,9 +134,37 @@ document.getElementById("msg").innerHTML="Cadastro enviado com sucesso!"
 
 }
 
+function mascaraCPF(cpf){
+
+cpf = cpf.replace(/\D/g,"")
+cpf = cpf.replace(/(\d{3})(\d)/,"$1.$2")
+cpf = cpf.replace(/(\d{3})(\d)/,"$1.$2")
+cpf = cpf.replace(/(\d{3})(\d{1,2})$/,"$1-$2")
+
+return cpf
+
+}
+
+function mascaraWhatsApp(telefone){
+
+telefone = telefone.replace(/\D/g,"")
+telefone = telefone.replace(/^(\d{2})(\d)/g,"($1) $2")
+telefone = telefone.replace(/(\d{5})(\d{4})$/,"$1-$2")
+
+return telefone
+
+}
+
+document.getElementById("cpf").addEventListener("input",function(){
+this.value = mascaraCPF(this.value)
+})
+
+document.getElementById("whatsapp").addEventListener("input",function(){
+this.value = mascaraWhatsApp(this.value)
+})
+
 </script>
 
 </body>
 
 </html>
-

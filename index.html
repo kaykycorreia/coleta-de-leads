@@ -20,8 +20,6 @@ align-items:center;
 background:url("https://images.unsplash.com/photo-1503376780353-7e6692767b70") center/cover no-repeat;
 }
 
-/* camada escura + desfoque */
-
 body::before{
 content:"";
 position:fixed;
@@ -29,32 +27,15 @@ top:0;
 left:0;
 width:100%;
 height:100%;
+background:rgba(0,0,0,0.45);
 backdrop-filter: blur(6px);
-background:rgba(0,0,0,0.4);
 z-index:0;
 }
-
-/* contador */
-
-.contador{
-position:fixed;
-top:20px;
-left:20px;
-background:rgba(0,0,0,0.7);
-color:white;
-padding:12px 18px;
-border-radius:8px;
-font-size:14px;
-z-index:2;
-box-shadow:0 5px 15px rgba(0,0,0,0.4);
-}
-
-/* formulário */
 
 .container{
 position:relative;
 z-index:1;
-background:rgba(255,255,255,0.9);
+background:white;
 padding:40px;
 border-radius:12px;
 width:360px;
@@ -78,7 +59,6 @@ margin-top:5px;
 margin-bottom:15px;
 border:1px solid #ccc;
 border-radius:6px;
-font-size:14px;
 }
 
 button{
@@ -103,6 +83,38 @@ font-weight:bold;
 color:green;
 }
 
+.contador{
+position:fixed;
+top:20px;
+left:20px;
+background:rgba(0,0,0,0.7);
+color:white;
+padding:10px 16px;
+border-radius:8px;
+font-size:14px;
+z-index:2;
+}
+
+.notificacao{
+position:fixed;
+bottom:20px;
+left:20px;
+background:white;
+padding:14px 18px;
+border-radius:8px;
+box-shadow:0 5px 20px rgba(0,0,0,0.3);
+font-size:14px;
+z-index:999;
+opacity:0;
+transform:translateY(20px);
+transition:all 0.4s;
+}
+
+.notificacao.show{
+opacity:1;
+transform:translateY(0);
+}
+
 </style>
 
 </head>
@@ -121,13 +133,13 @@ color:green;
 <input id="nome" placeholder="Digite seu nome">
 
 <label>CPF</label>
-<input id="cpf" placeholder="000.000.000-00" maxlength="14">
+<input id="cpf" placeholder="000.000.000-00">
 
 <label>Email</label>
 <input id="email" placeholder="seuemail@email.com">
 
 <label>WhatsApp</label>
-<input id="whatsapp" placeholder="(11) 99999-9999" maxlength="15">
+<input id="whatsapp" placeholder="(11) 99999-9999">
 
 <label>Data de nascimento</label>
 <input id="nascimento" type="date">
@@ -177,24 +189,18 @@ document.getElementById("msg").innerHTML="Cadastro enviado com sucesso!"
 }
 
 function mascaraCPF(cpf){
-
 cpf = cpf.replace(/\D/g,"")
 cpf = cpf.replace(/(\d{3})(\d)/,"$1.$2")
 cpf = cpf.replace(/(\d{3})(\d)/,"$1.$2")
 cpf = cpf.replace(/(\d{3})(\d{1,2})$/,"$1-$2")
-
 return cpf
-
 }
 
-function mascaraWhatsApp(telefone){
-
-telefone = telefone.replace(/\D/g,"")
-telefone = telefone.replace(/^(\d{2})(\d)/g,"($1) $2")
-telefone = telefone.replace(/(\d{5})(\d{4})$/,"$1-$2")
-
-return telefone
-
+function mascaraWhatsApp(tel){
+tel = tel.replace(/\D/g,"")
+tel = tel.replace(/^(\d{2})(\d)/g,"($1) $2")
+tel = tel.replace(/(\d{5})(\d{4})$/,"$1-$2")
+return tel
 }
 
 document.getElementById("cpf").addEventListener("input",function(){
@@ -203,6 +209,54 @@ this.value = mascaraCPF(this.value)
 
 document.getElementById("whatsapp").addEventListener("input",function(){
 this.value = mascaraWhatsApp(this.value)
+})
+
+/* POPUP FALSO */
+
+const nomes = [
+"Marciele Santos Almeida",
+"Anderson Cardoso",
+"Juliana Ribeiro",
+"Carlos Eduardo Martins",
+"Patricia Fernandes",
+"Lucas Henrique Souza",
+"Fernanda Oliveira",
+"Bruno Carvalho",
+"Amanda Rodrigues",
+"Rafael Almeida"
+]
+
+let notificacoes = 0
+
+function mostrarNotificacao(){
+
+if(notificacoes >= 6) return
+
+const nome = nomes[Math.floor(Math.random()*nomes.length)]
+
+const div = document.createElement("div")
+div.className="notificacao"
+div.innerHTML="✅ <b>"+nome+"</b> acabou de se cadastrar"
+
+document.body.appendChild(div)
+
+setTimeout(()=>{div.classList.add("show")},100)
+
+setTimeout(()=>{
+div.classList.remove("show")
+setTimeout(()=>{div.remove()},500)
+},4000)
+
+notificacoes++
+
+}
+
+let intervalo = setInterval(mostrarNotificacao,5000)
+
+document.addEventListener("visibilitychange",function(){
+if(document.hidden){
+clearInterval(intervalo)
+}
 })
 
 </script>

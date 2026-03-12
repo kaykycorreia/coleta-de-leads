@@ -2,45 +2,34 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Cadastro para participar</title>
+<title>Cadastro</title>
 
 <style>
 
 body{
-margin:0;
-font-family:Arial, Helvetica, sans-serif;
-background:linear-gradient(135deg,#0b6efd,#5aa2ff);
-height:100vh;
+font-family:Arial;
+background:#0b6efd;
 display:flex;
 justify-content:center;
 align-items:center;
+height:100vh;
+margin:0;
 }
 
 .container{
 background:white;
 padding:40px;
-border-radius:12px;
+border-radius:10px;
 width:350px;
 box-shadow:0 10px 30px rgba(0,0,0,0.2);
-text-align:center;
-}
-
-h2{
-margin-bottom:25px;
 }
 
 input{
 width:100%;
 padding:12px;
 margin-bottom:15px;
-border:1px solid #ddd;
+border:1px solid #ccc;
 border-radius:6px;
-font-size:14px;
-}
-
-input:focus{
-outline:none;
-border-color:#0b6efd;
 }
 
 button{
@@ -51,18 +40,6 @@ color:white;
 border:none;
 border-radius:6px;
 font-size:16px;
-cursor:pointer;
-font-weight:bold;
-}
-
-button:hover{
-background:#094bb5;
-}
-
-#msg{
-margin-top:15px;
-font-weight:bold;
-color:green;
 }
 
 </style>
@@ -75,46 +52,23 @@ color:green;
 
 <h2>Cadastro para participar</h2>
 
-<input id="nome" placeholder="Nome completo">
+<form action="https://script.google.com/macros/s/AKfycbzXJtn-K4dtPU7kYx9A0sbtrGgZ9zPZASmGNFnjJq74kM0UajVAXnZJGWdxz-8nQGUQ/exec" method="POST">
 
-<input id="cpf" placeholder="CPF">
+<input name="nome" placeholder="Nome completo" required>
 
-<input id="email" placeholder="Email">
+<input name="cpf" placeholder="CPF" required>
 
-<input id="whatsapp" placeholder="WhatsApp">
+<input name="email" placeholder="Email" required>
 
-<input id="nascimento" type="date">
+<input name="whatsapp" placeholder="WhatsApp" required>
 
-<button onclick="enviar()">Enviar</button>
+<input name="nascimento" type="date" required>
 
-<p id="msg"></p>
+<button type="submit">Enviar</button>
+
+</form>
 
 </div>
 
-<script>
-
-function enviar(){
-
-const dados = {
-nome: document.getElementById("nome").value,
-cpf: document.getElementById("cpf").value,
-email: document.getElementById("email").value,
-whatsapp: document.getElementById("whatsapp").value,
-nascimento: document.getElementById("nascimento").value
-}
-
-fetch("https://script.google.com/macros/s/AKfycbzXJtn-K4dtPU7kYx9A0sbtrGgZ9zPZASmGNFnjJq74kM0UajVAXnZJGWdxz-8nQGUQ/exec",{
-method:"POST",
-mode:"no-cors",
-body:JSON.stringify(dados)
-})
-
-document.getElementById("msg").innerHTML="Cadastro enviado com sucesso!"
-
-}
-
-</script>
-
 </body>
 </html>
-

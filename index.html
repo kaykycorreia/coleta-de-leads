@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Cadastro</title>
+</head>
+
+<body>
+
+<h2>Cadastro para participar</h2>
+
+<input id="nome" placeholder="Nome"><br><br>
+<input id="cpf" placeholder="CPF"><br><br>
+<input id="email" placeholder="Email"><br><br>
+<input id="whatsapp" placeholder="WhatsApp"><br><br>
+<input id="nascimento" type="date"><br><br>
+
+<button onclick="enviar()">Enviar</button>
+
+<p id="msg"></p>
+
+<script>
+
+function enviar(){
+
+const dados = {
+nome: document.getElementById("nome").value,
+cpf: document.getElementById("cpf").value,
+email: document.getElementById("email").value,
+whatsapp: document.getElementById("whatsapp").value,
+nascimento: document.getElementById("nascimento").value
+}
+
+fetch("https://script.google.com/macros/s/AKfycbzXJtn-K4dtPU7kYx9A0sbtrGgZ9zPZASmGNFnjJq74kM0UajVAXnZJGWdxz-8nQGUQ/exec",{
+method:"POST",
+mode:"no-cors",
+body:JSON.stringify(dados)
+})
+
+document.getElementById("msg").innerHTML="Cadastro enviado!"
+
+}
+
+</script>
+
+</body>
+</html>

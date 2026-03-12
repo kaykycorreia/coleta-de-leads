@@ -12,16 +12,49 @@
 
 body{
 font-family: Arial, sans-serif;
-background: linear-gradient(135deg,#0b6efd,#003a8c);
+margin:0;
+height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-height:100vh;
-margin:0;
+background:url("https://images.unsplash.com/photo-1503376780353-7e6692767b70") center/cover no-repeat;
 }
 
+/* camada escura + desfoque */
+
+body::before{
+content:"";
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+backdrop-filter: blur(6px);
+background:rgba(0,0,0,0.4);
+z-index:0;
+}
+
+/* contador */
+
+.contador{
+position:fixed;
+top:20px;
+left:20px;
+background:rgba(0,0,0,0.7);
+color:white;
+padding:12px 18px;
+border-radius:8px;
+font-size:14px;
+z-index:2;
+box-shadow:0 5px 15px rgba(0,0,0,0.4);
+}
+
+/* formulário */
+
 .container{
-background:white;
+position:relative;
+z-index:1;
+background:rgba(255,255,255,0.9);
 padding:40px;
 border-radius:12px;
 width:360px;
@@ -76,6 +109,10 @@ color:green;
 
 <body>
 
+<div class="contador">
+👥 Interessados: <span id="contador">128</span>
+</div>
+
 <div class="container">
 
 <h2>Preencha as informações para entrarmos em contato</h2>
@@ -103,6 +140,8 @@ color:green;
 
 <script>
 
+let contador = 128
+
 function enviar(){
 
 var nome = document.getElementById("nome").value
@@ -129,6 +168,9 @@ method:"POST",
 mode:"no-cors",
 body:JSON.stringify(dados)
 })
+
+contador++
+document.getElementById("contador").innerText = contador
 
 document.getElementById("msg").innerHTML="Cadastro enviado com sucesso!"
 
